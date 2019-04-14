@@ -1,5 +1,4 @@
 import Data.Vect
-import Data.Fin
 
 data PowerSource = Petrol | Pedal | Electric
 
@@ -24,8 +23,11 @@ refuel (Motocycle fuel) = Motocycle 50
 refuel (Car fuel) = Car 100
 refuel (Bus fuel) = Bus 200
 
-something : (m : Nat) -> (xs : Vect (m + (S k)) a) -> Vect (S k) a
-
-vectTake : (n : Nat) -> Vect (m + n) a -> Vect n a
+vectTake : (n : Nat) -> Vect (n + m) elem -> Vect n elem
 vectTake Z xs = []
-vectTake {m} (S k) xs = something m xs 
+vectTake (S k) (x :: xs) = x :: vectTake k xs
+
+sumEntries : Num a => (pos : Integer) -> Vect n a -> Vect n a -> Maybe a
+sumEntries {n} pos xs ys = case integerToFin pos n of
+                                Nothing => Nothing
+                                Just idx => Just ((index idx xs) + (index idx ys))
