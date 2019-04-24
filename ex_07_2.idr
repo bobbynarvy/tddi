@@ -38,3 +38,11 @@ Show num => Show (Expr num) where
   
 (Abs num, Integral num, Neg num) => Cast (Expr num) num where
   cast orig = eval orig
+
+Functor Expr where
+  map func (Val x) = Val (func x)
+  map func (Add x y) = Add (map func x) (map func y)
+  map func (Sub x y) = Sub (map func x) (map func y)
+  map func (Mul x y) = Mul (map func x) (map func y)
+  map func (Div x y) = Div (map func x) (map func y)
+  map func (Abs x) = Abs (map func x)
